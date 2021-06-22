@@ -20,7 +20,8 @@ enc:
 	./swap.sh $(N31) $(N32) | \
 	./swap.sh $(N33) $(N34) | \
 	./swap.sh $(N35) $(N36) \
-	> $(DATA_FILE_NAME)
+	> $(DATA_FILE_NAME_NOW)
+	ln -fs $(DATA_FILE_NAME_NOW) $(DATA_FILE_NAME)
 dec: clean
 	mkdir -p outputs/
 	cat $(DATA_FILE_NAME) | \
@@ -100,6 +101,8 @@ clean:
 ID = "308A25F1"
 KEY_FILE_NAME = "key.txt"
 DATA_FILE_NAME = "crypto$$.txt"
+NOW = $(shell date +%Y%m%d_%H%M%S)
+DATA_FILE_NAME_NOW = "crypto\$$_$(NOW).txt"
 PASSWORD := $(shell read -p 'Please input your des3 password: ' _PASSWD && echo $$_PASSWD)
 
 ##
