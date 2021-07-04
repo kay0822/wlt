@@ -98,7 +98,7 @@ clean:
 	rm -rf outputs/
 	rm -f wallets.*
 
-# raw -> encrypted
+# raw -> encoded
 enc_file:
 	cat $(RAW) | base64 | \
 	gpg -r $(ID) -e - | base64 | \
@@ -122,7 +122,7 @@ enc_file:
 	./switch.sh 30 $(K29) $(K30) | \
 	base64 > $(DECRYPTED)
 
-# encrypted -> result(raw)
+# encoded -> result(raw)
 dec_file:
 	cat $(DECRYPTED) | base64 -d  | \
 	./switch.sh 30 $(K29) $(K30) | \
@@ -153,7 +153,7 @@ NOW = $(shell date +%Y%m%d_%H%M%S)
 DATA_FILE_NAME_NOW = "crypto\$$_$(NOW).txt"
 PASSWORD := $(shell read -p 'Please input your des3 password: ' _PASSWD && echo $$_PASSWD)
 RAW := "file.raw.txt"
-DECRYPTED := "file.encrypted.txt"
+DECRYPTED := "file.encoded.txt"
 RESULT := "file.result.txt"
 
 
