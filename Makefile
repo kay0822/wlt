@@ -106,39 +106,37 @@ enc_file:
 	./switch.sh 2 $(K3) $(K4) | \
 	./switch.sh 3 $(K5) $(K6) | \
 	./switch.sh 4 $(K7) $(K8) | \
-	openssl aes-256-cbc -salt -k "$(PASSWORD)" | base64 | \
+	./switch.sh 5 $(K9) $(K10) | \
+	openssl aes-256-cbc -salt -k "$(PASSWORD)$(K31)$(N32)" | base64 | \
 	./switch.sh 11 $(K11) $(K12) | \
 	./switch.sh 12 $(K13) $(K14) | \
 	./switch.sh 13 $(K15) $(K16) | \
 	./switch.sh 14 $(K17) $(K18) | \
-	openssl des3 -salt -k "$(N19)$(K20)" | base64 | \
+	./switch.sh 15 $(K19) $(K20) | \
+	openssl des3 -salt -k "$(N9)$(K10)$(N19)$(K20)$(N29)$(K30)" | base64 | \
 	./switch.sh 21 $(K21) $(K22) | \
 	./switch.sh 22 $(K23) $(K24) | \
 	./switch.sh 23 $(K25) $(K26) | \
 	./switch.sh 24 $(K27) $(K28) | \
-	openssl aes-256-ecb -salt -k "$(N29)$(K30)" | base64 | \
-	./switch.sh 10 $(K9) $(K10) | \
-	./switch.sh 20 $(K19) $(K20) | \
-	./switch.sh 30 $(K29) $(K30) | \
+	./switch.sh 25 $(K29) $(K30) | \
 	base64 > $(ENCODED_FILE)
 
 # encoded -> result(raw)
 dec_file:
 	cat $(ENCODED_FILE) | base64 -d  | \
-	./switch.sh 30 $(K29) $(K30) | \
-	./switch.sh 20 $(K19) $(K20) | \
-	./switch.sh 10 $(K9) $(K10) | \
-	base64 -d | openssl aes-256-ecb -d -k "$(N29)$(K30)" | \
+	./switch.sh 25 $(K29) $(K30) | \
 	./switch.sh 24 $(K27) $(K28) | \
 	./switch.sh 23 $(K25) $(K26) | \
 	./switch.sh 22 $(K23) $(K24) | \
 	./switch.sh 21 $(K21) $(K22) | \
-	base64 -d | openssl des3 -d -k "$(N19)$(K20)" | \
+	base64 -d | openssl des3 -d -k "$(N9)$(K10)$(N19)$(K20)$(N29)$(K30)" | \
+	./switch.sh 15 $(K19) $(K20) | \
 	./switch.sh 14 $(K17) $(K18) | \
 	./switch.sh 13 $(K15) $(K16) | \
 	./switch.sh 12 $(K13) $(K14) | \
 	./switch.sh 11 $(K11) $(K12) | \
-	base64 -d | openssl aes-256-cbc -d -k "$(PASSWORD)" | \
+	base64 -d | openssl aes-256-cbc -d -k "$(PASSWORD)$(K31)$(N32)" | \
+	./switch.sh 5 $(K9) $(K10) | \
 	./switch.sh 4 $(K7) $(K8) | \
 	./switch.sh 3 $(K5) $(K6) | \
 	./switch.sh 2 $(K3) $(K4) | \
