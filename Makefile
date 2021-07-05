@@ -146,6 +146,12 @@ dec_file:
 	base64 -d | gpg -r $(ID) -d -  | \
 	base64 -d > $(RESULT)
 
+ascii2hex:
+	cat $(ASCII_IN) | xxd -p  > $(HEX_OUT)
+
+hex2ascii:
+	cat $(HEX_IN) | xxd -p -r > $(ASCII_OUT)
+
 ID = "308A25F1"
 KEY_FILE_NAME = "key.txt"
 DATA_FILE_NAME = "crypto$$.txt"
@@ -155,6 +161,10 @@ PASSWORD := $(shell read -p 'Please input your des3 password: ' _PASSWD && echo 
 RAW := "file.raw.txt"
 DECRYPTED := "file.encoded.txt"
 RESULT := "file.result.txt"
+ASCII_IN := "file.ascii.in.txt"
+ASCII_OUT := "file.ascii.out.txt"
+HEX_IN := "file.hex.in.txt"
+HEX_OUT := "file.hex.out.txt"
 
 
 ##
