@@ -100,7 +100,7 @@ clean:
 
 # raw -> encoded
 enc_file:
-	cat $(RAW) | base64 | \
+	cat $(RAW_FILE) | base64 | \
 	gpg -r $(ID) -e - | base64 | \
 	./switch.sh 1 $(K1) $(K2) | \
 	./switch.sh 2 $(K3) $(K4) | \
@@ -120,11 +120,11 @@ enc_file:
 	./switch.sh 10 $(K9) $(K10) | \
 	./switch.sh 20 $(K19) $(K20) | \
 	./switch.sh 30 $(K29) $(K30) | \
-	base64 > $(DECRYPTED)
+	base64 > $(ENCODED_FILE)
 
 # encoded -> result(raw)
 dec_file:
-	cat $(DECRYPTED) | base64 -d  | \
+	cat $(ENCODED_FILE) | base64 -d  | \
 	./switch.sh 30 $(K29) $(K30) | \
 	./switch.sh 20 $(K19) $(K20) | \
 	./switch.sh 10 $(K9) $(K10) | \
@@ -144,10 +144,10 @@ dec_file:
 	./switch.sh 2 $(K3) $(K4) | \
 	./switch.sh 1 $(K1) $(K2) | \
 	base64 -d | gpg -r $(ID) -d -  | \
-	base64 -d > $(RESULT)
+	base64 -d > $(RESULT_FILE)
 
 ascii2hex:
-	cat $(ASCII_IN) | xxd -p  > $(HEX_OUT)
+	cat $(ASCII_IN) | xxd -p | tr -d '\n' > $(HEX_OUT)
 
 hex2ascii:
 	cat $(HEX_IN) | xxd -p -r > $(ASCII_OUT)
@@ -158,13 +158,16 @@ DATA_FILE_NAME = "crypto$$.txt"
 NOW = $(shell date +%Y%m%d_%H%M%S)
 DATA_FILE_NAME_NOW = "crypto\$$_$(NOW).txt"
 PASSWORD := $(shell read -p 'Please input your des3 password: ' _PASSWD && echo $$_PASSWD)
-RAW := "file.raw.txt"
-DECRYPTED := "file.encoded.txt"
-RESULT := "file.result.txt"
-ASCII_IN := "file.ascii.in.txt"
-ASCII_OUT := "file.ascii.out.txt"
-HEX_IN := "file.hex.in.txt"
-HEX_OUT := "file.hex.out.txt"
+
+RAW_FILE := "file.txt"
+ENCODED_FILE := "$(RAW_FILE).encoded"
+RESULT_FILE := "$(ENCODED_FILE).result"
+
+ASCII_IN := "ascii.in.txt"
+HEX_OUT := "$(ASCII_IN).hex"
+
+HEX_IN := "hex.in.txt"
+ASCII_OUT := "$(HEX_IN).ascii"
 
 
 ##

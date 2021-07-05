@@ -2,3 +2,7 @@ Makefile.config
 *.txt
 wallets/
 outputs/
+*.encoded
+*.result
+*.hex
+*.ascii
