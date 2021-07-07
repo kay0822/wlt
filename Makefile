@@ -164,6 +164,13 @@ ascii2hex:
 hex2ascii:
 	cat $(HEX_IN) | xxd -p -r > $(ASCII_OUT)
 
+shred_file:
+	shred -zvu -n 5 "$(FILE)"
+
+sfill:
+	mkdir -p .tmp_for_sfill
+	sfill -v .tmp_for_sfill
+
 ID = "308A25F1"
 KEY_FILE_NAME = "key.txt"
 DATA_FILE_NAME = "crypto$$.txt"
@@ -180,6 +187,8 @@ HEX_OUT := "$(ASCII_IN).hex"
 
 HEX_IN := "hex.in.txt"
 ASCII_OUT := "$(HEX_IN).ascii"
+
+FILE := ""
 
 ##
 ## Important: all variables will be declared in Makefile.config
