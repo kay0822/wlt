@@ -172,11 +172,13 @@ sfill:
 	sfill -v .tmp_for_sfill
 
 ID = "308A25F1"
-KEY_FILE_NAME = "key.txt"
-DATA_FILE_NAME = "crypto$$.txt"
 NOW = $(shell date +%Y%m%d_%H%M%S)
-DATA_FILE_NAME_NOW = "crypto\$$_$(NOW).txt"
-###PASSWORD := $(shell read -p 'Please input your des3 password: ' _PASSWD && echo $$_PASSWD)
+KEY_FILE_NAME := "key.txt"
+### DATA_FILE_NAME := "crypto$$.txt"
+DATA_FILE_NAME := "data.txt"
+DATA_FILE_NAME_NOW := "$(DATA_FILE_NAME).$(NOW)"
+### PASSWORD := $(shell read -p 'Please input your des3 password: ' _PASSWD && echo $$_PASSWD)
+
 
 RAW_FILE := "file.txt"
 ENCODED_FILE := "$(RAW_FILE).encoded"
