@@ -1,5 +1,9 @@
 .ONESHELL:  # important, every commands of a target runs in one shell
 
+# !!!! IMPORTANT:
+# crypto.txt use enc  /  dec
+# data.txt   usd enc2 / dec2
+
 test:
 	@read -p 'Please input your des3 password: ' PASSWORD
 	echo "$${PASSWORD}"
@@ -31,6 +35,7 @@ enc:
 	./swap.sh $(N35) $(N36) \
 	> $(DATA_FILE_NAME_NOW)
 	ln -fs $(DATA_FILE_NAME_NOW) $(DATA_FILE_NAME)
+
 dec: clean
 	@read -p 'Please input your des3 password: ' PASSWORD
 	@mkdir -p outputs/
@@ -55,6 +60,58 @@ dec: clean
 	./swap.sh $(N5) $(N6) | \
 	./swap.sh $(N3) $(N4) | \
 	./swap.sh $(N1) $(N2) | \
+	base64 -d | tar zxvf - -C outputs/
+
+enc2: 
+	@read -p 'Please input your des3 password: ' PASSWORD
+	tar zcf - wallets | base64 | \
+	./swap.sh $(M1) $(M2) | \
+	./swap.sh $(M3) $(M4) | \
+	./swap.sh $(M5) $(M6) | \
+	./swap.sh $(M7) $(M8) | \
+	./swap.sh $(M9) $(M10) | \
+	./swap.sh $(M11) $(M12) | \
+	gpg --always-trust -r $(ID) -e - | base64 | \
+	./swap.sh $(M13) $(M14) | \
+	./swap.sh $(M15) $(M16) | \
+	./swap.sh $(M17) $(M18) | \
+	./swap.sh $(M19) $(M20) | \
+	./swap.sh $(M21) $(M22) | \
+	./swap.sh $(M23) $(M24) | \
+	openssl des3 -salt -k "$${PASSWORD}" | base64 | \
+	./swap.sh $(M25) $(M26) | \
+	./swap.sh $(M27) $(M28) | \
+	./swap.sh $(M29) $(M30) | \
+	./swap.sh $(M31) $(M32) | \
+	./swap.sh $(M33) $(M34) | \
+	./swap.sh $(M35) $(M36) \
+	> $(DATA_FILE_NAME_NOW)
+	ln -fs $(DATA_FILE_NAME_NOW) $(DATA_FILE_NAME)
+
+dec2: clean
+	@read -p 'Please input your des3 password: ' PASSWORD
+	@mkdir -p outputs/
+	@cat $(DATA_FILE_NAME) | \
+	./swap.sh $(M35) $(M36) | \
+	./swap.sh $(M33) $(M34) | \
+	./swap.sh $(M31) $(M32) | \
+	./swap.sh $(M29) $(M30) | \
+	./swap.sh $(M27) $(M28) | \
+	./swap.sh $(M25) $(M26) | \
+	base64 -d | openssl des3 -d -k "$${PASSWORD}" | \
+	./swap.sh $(M23) $(M24) | \
+	./swap.sh $(M21) $(M22) | \
+	./swap.sh $(M19) $(M20) | \
+	./swap.sh $(M17) $(M18) | \
+	./swap.sh $(M15) $(M16) | \
+	./swap.sh $(M13) $(M14) | \
+	base64 -d | gpg -d -  | \
+	./swap.sh $(M11) $(M12) | \
+	./swap.sh $(M9) $(M10) | \
+	./swap.sh $(M7) $(M8) | \
+	./swap.sh $(M5) $(M6) | \
+	./swap.sh $(M3) $(M4) | \
+	./swap.sh $(M1) $(M2) | \
 	base64 -d | tar zxvf - -C outputs/
 
 export:
