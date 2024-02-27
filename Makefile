@@ -2,7 +2,7 @@
 
 # !!!! IMPORTANT:
 # crypto.txt use enc  /  dec
-# data.txt   usd enc2 / dec2
+# data.txt   use enc2 / dec2
 
 test:
 	@read -p 'Please input your des3 password: ' PASSWORD
