@@ -1,8 +1,22 @@
 .ONESHELL:  # important, every commands of a target runs in one shell
 
 # !!!! IMPORTANT:
+# 1. version 1 (old)
 # crypto.txt use enc  /  dec
+# 2. version 2 (latest, lighter)
 # data.txt   use enc2 / dec2
+# 3. single file
+# file.txt   use enc_file / dec_file
+# example:
+#   enc:
+#     1) make enc_file RAW_FILE=file.txt             ==> file.txt.encoded
+#     2) make ascii2hex ASCII_IN=file.txt.encoded    ==> file.txt.encoded.hex
+#     3) mv file.txt.encoded.hex my_hex_file
+#   dec:
+#     1) mv my_hex_file file.hex
+#     2) make hex2ascii HEX_IN=file.hex              ==> file.hex.ascii
+#     3) make dec_file ENCODED_FILE=file.hex.ascii   ==> file.hex.ascii.result
+#   and file.txt should be the same with file.txt.hex.ascii.result
 
 test:
 	@read -p 'Please input your des3 password: ' PASSWORD
