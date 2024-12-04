@@ -16,7 +16,7 @@
 #     1) mv my_hex_file file.hex
 #     2) make hex2ascii HEX_IN=file.hex              ==> file.hex.ascii
 #     3) make dec_file ENCODED_FILE=file.hex.ascii   ==> file.hex.ascii.result
-#   and file.txt should be the same with file.txt.hex.ascii.result
+#   and file.txt should be the same with file.hex.ascii.result
 
 test:
 	@read -p 'Please input your des3 password: ' PASSWORD
